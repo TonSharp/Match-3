@@ -1336,6 +1336,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2088769633}
   - component: {fileID: 2088769632}
+  - component: {fileID: 2088769634}
+  - component: {fileID: 2088769635}
   m_Layer: 0
   m_Name: Placer
   m_TagString: Untagged
@@ -1376,3 +1378,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2088769634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2088769631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83bc1aa741afb89408c9b0d6d67aed9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _borderTilemap: {fileID: 244489809}
+--- !u!114 &2088769635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2088769631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd5d80a8727063448955f5a58c6b8eaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
