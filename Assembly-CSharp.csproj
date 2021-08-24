@@ -53,9 +53,11 @@
     <UnityVersion>2020.3.15f2</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assets\TilesEditor.cs" />
-    <Compile Include="Assets\BorderIntegrity.cs" />
-    <Compile Include="Assets\BorderPool.cs" />
+    <Compile Include="Assets\Scripts\TilesEditor.cs" />
+    <Compile Include="Assets\Scripts\TokenSpawner.cs" />
+    <Compile Include="Assets\Scripts\BorderPool.cs" />
+    <Compile Include="Assets\Scripts\BorderIntegrity.cs" />
+    <Compile Include="Assets\Scripts\Token.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
