@@ -237,6 +237,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isMoveable: 0
+  _type: 0
+  _lvl: 1
+  GridPos: {x: 0, y: 0}
 --- !u!1 &244489806
 GameObject:
   m_ObjectHideFlags: 0
@@ -613,11 +616,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2088769632}
         m_TargetAssemblyTypeName: TilesEditor, Assembly-CSharp
-        m_MethodName: SelectBackground
-        m_Mode: 1
+        m_MethodName: SelectToken
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 231427390381101583, guid: be003eb2ca5bdce48b6f3af3199cf78c, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -643,7 +646,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 50d85aa3a018d2e48b1fda8f15295db8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: addee23533d21ff4fb2dab403e693607, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -746,11 +749,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2088769632}
         m_TargetAssemblyTypeName: TilesEditor, Assembly-CSharp
-        m_MethodName: SelectBackground
-        m_Mode: 1
+        m_MethodName: SelectToken
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 7110658442594451740, guid: de3c1f312bd98794fbeb1355b5e8691f, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -776,7 +779,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0a6a371bf7a1fb54c94cf79b1ea557d7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b2ab3a1b368ee7240b9e56ac0909ce3c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -997,16 +1000,16 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2088769632}
         m_TargetAssemblyTypeName: TilesEditor, Assembly-CSharp
-        m_MethodName: SelectBackground
-        m_Mode: 1
+        m_MethodName: SelectToken
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 7110658442594451740, guid: b4c2290f120536c4ba86c3f2bf03003a, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
 --- !u!114 &983610213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1027,7 +1030,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 96b8176f4ffe6d940818f42e8eb30de0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 006da826408c99349ace6967a19a823f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2263,11 +2266,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2088769632}
         m_TargetAssemblyTypeName: TilesEditor, Assembly-CSharp
-        m_MethodName: SelectBackground
-        m_Mode: 1
+        m_MethodName: SelectToken
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 231427390381101583, guid: ee2d3ef9b4326064eaf3c10fcbbae044, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2293,7 +2296,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2576ef1eff63dd842bd30f7ece164100, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d59b66883728a844ab5274397bc8abfa, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

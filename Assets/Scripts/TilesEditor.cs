@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
+using System.Linq;
 
 public static class Vector2IntExt
 {
@@ -19,6 +20,13 @@ public static class Vector3IntExt
         return new Vector2Int(vector.x, vector.y);
     }
 }
+public static class Vector3Ext
+{
+    public static Vector2 ToV2(this Vector3 vector)
+    {
+        return new Vector2(vector.x, vector.y);
+    }
+}
 
 public class TilesEditor : MonoBehaviour
 {
@@ -31,6 +39,9 @@ public class TilesEditor : MonoBehaviour
     private Tilemap _activeTilemap;
     private TileBase _activeBase;
 
+    private bool _isTokenSpawning = false;
+    private GameObject _activeToken;
+
     private BorderIntegrity _integrity;
     private BorderPool _borderPool;
     private TokenSpawner _spawner;
@@ -39,6 +50,8 @@ public class TilesEditor : MonoBehaviour
     private const int _yMin = -5;
     private const int _xMax = 3;
     private const int _xMin = -4;
+
+    private bool _playMode = false;
 
     void Start()
     {
@@ -56,9 +69,11 @@ public class TilesEditor : MonoBehaviour
     {
         var cellPos = GetCellPos();
 
-        if (Input.GetMouseButton(0) && IsInGridBorder(cellPos))
+        if (Input.GetMouseButton(0) && IsInGridBorder(cellPos) && !_playMode && !_isTokenSpawning)
             Place(cellPos);
-        if (Input.GetMouseButton(1) && IsInGridBorder(cellPos))
+        if(Input.GetMouseButtonDown(0) && IsInGridBorder(cellPos) && !_playMode && _isTokenSpawning)
+            Place(cellPos);
+        if (Input.GetMouseButton(1) && IsInGridBorder(cellPos) && !_playMode)
             UnPlace(cellPos);
 
         if (Input.GetKeyDown(KeyCode.C))
@@ -66,6 +81,8 @@ public class TilesEditor : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F))
         {
+            _playMode = true;
+
             var pos = _integrity.GetFillPos();
 
             foreach (var p in pos)
@@ -92,22 +109,67 @@ public class TilesEditor : MonoBehaviour
         _currentTool.sprite = _borderSprite;
     }
 
+    public void SelectTile(Tilemap map, TileBase @base, Sprite sprite)
+    {
+        _isTokenSpawning = false;
+
+        _activeTilemap = map;
+        _activeBase = @base;
+
+        _currentTool.sprite = sprite;
+    }
+    public void SelectToken(GameObject token)
+    {
+        _isTokenSpawning = true;
+
+        _activeToken = token;
+
+        _currentTool.sprite = token.GetComponent<SpriteRenderer>().sprite;
+    }
+
     private void UnPlace(Vector3Int cellPos)
     {
-        _activeTilemap.SetTile(cellPos, null);
-        _borderPool.RemoveFromPool(cellPos.ToV2Int());
-        //if (_activeBase == _border)
-        //    if (_integrity.Check())
-        //        Debug.Log("Success");
+        if (!_isTokenSpawning)
+        {
+            _activeTilemap.SetTile(cellPos, null);
+            _borderPool.RemoveFromPool(cellPos.ToV2Int());
+        }
+        else
+        {
+            var go = from p in _spawner.TokensPool
+                     where p.GridPos == cellPos.ToV2Int()
+                     select p;
+
+            if (go.Count() == 0)
+                return;
+
+            if(go.ElementAt(0).Type == _activeToken.GetComponent<Token>().Type)
+            {
+                Destroy(go.ElementAt(0).gameObject);
+                _spawner.TokensPool.Remove(go.ElementAt(0));
+            }
+        }
     }
     private void Place(Vector3Int cellPos)
     {
-        _activeTilemap.SetTile(cellPos, _activeBase);
-        _borderPool.AddToPool(cellPos.ToV2Int());
+        if(!_isTokenSpawning && _activeTilemap.GetTile(cellPos) == null)
+        {
+            _activeTilemap.SetTile(cellPos, _activeBase);
+            _borderPool.AddToPool(cellPos.ToV2Int());
+        }
+        else
+        {
+            if (_borderTilemap.GetTile(cellPos) != null)
+                return;
 
-        //if(_activeBase == _border)
-        //    if (_integrity.Check())
-        //        Debug.Log("Success");
+            var go = Instantiate(_activeToken);
+            go.transform.position = _activeTilemap.GetCellCenterWorld(cellPos);
+
+            var token = go.GetComponent<Token>();
+            token.GridPos = cellPos.ToV2Int();
+
+            _spawner.TokensPool.Add(go.GetComponent<Token>());
+        }
     }
     private Vector3Int GetCellPos()
     {

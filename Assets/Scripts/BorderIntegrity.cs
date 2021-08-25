@@ -157,7 +157,7 @@ public class BorderIntegrity : MonoBehaviour
         }
     }
 
-    private List<Vector2Int> GetNeigbourPos(Vector2Int origin)
+    public List<Vector2Int> GetNeigbourPos(Vector2Int origin)
     {
         var poses = new List<Vector2Int>();
 
