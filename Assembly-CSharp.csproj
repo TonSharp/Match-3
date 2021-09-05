@@ -53,14 +53,42 @@
     <UnityVersion>2020.3.15f2</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Token.cs" />
+    <Compile Include="Assets\Scripts\Token\Token.cs" />
     <Compile Include="Assets\Scripts\TilesEditor.cs" />
-    <Compile Include="Assets\Scripts\TokenSpawner.cs" />
-    <Compile Include="Assets\Scripts\BorderPool.cs" />
-    <Compile Include="Assets\Scripts\BorderIntegrity.cs" />
+    <Compile Include="Assets\Scripts\UI\Targets\Targets\ITokenTarget.cs" />
+    <Compile Include="Assets\Scripts\Token\FreeSpaceManager.cs" />
+    <Compile Include="Assets\Scripts\UI\Targets\Targets\MoveTarget.cs" />
+    <Compile Include="Assets\Scripts\Token\Boosters\Rocket.cs" />
+    <Compile Include="Assets\Scripts\UI\Targets\TargetSpawner.cs" />
+    <Compile Include="Assets\Scripts\Token\TokenSpawner.cs" />
+    <Compile Include="Assets\Scripts\UI\Targets\Targets\TokenTarget.cs" />
+    <Compile Include="Assets\Scripts\CurrentLevelStats.cs" />
+    <Compile Include="Assets\Scripts\UI\Targets\Targets\ITarget.cs" />
+    <Compile Include="Assets\Scripts\Border\FieldBounds.cs" />
+    <Compile Include="Assets\Scripts\Token\DrawTokenSelector.cs" />
+    <Compile Include="Assets\Scripts\Token\Boosters\Bomb.cs" />
+    <Compile Include="Assets\Scripts\Token\TokenPool.cs" />
+    <Compile Include="Assets\Scripts\UI\Targets\Targets\Enums.cs" />
+    <Compile Include="Assets\Scripts\Token\TokenLVLSwitcher.cs" />
+    <Compile Include="Assets\Scripts\StateManager.cs" />
+    <Compile Include="Assets\Scripts\UI\Targets\Targets\ObstacleTarget.cs" />
+    <Compile Include="Assets\Scripts\UI\Targets\TargetType.cs" />
+    <Compile Include="Assets\Scripts\Token\Boosters\IBooster.cs" />
+    <Compile Include="Assets\Scripts\UI\Targets\VidgetConfigurator.cs" />
+    <Compile Include="Assets\Scripts\UI\Targets\Targets\IIntTarget.cs" />
+    <Compile Include="Assets\Scripts\UI\Vidgets\TokenVidget.cs" />
     <Compile Include="Assets\Scripts\GridCalculator.cs" />
-    <Compile Include="Assets\Scripts\TokenType.cs" />
-    <Compile Include="Assets\Scripts\TokenLVLSwitcher.cs" />
+    <Compile Include="Assets\Scripts\SpawnPosesPool.cs" />
+    <Compile Include="Assets\Scripts\Border\BorderPool.cs" />
+    <Compile Include="Assets\Scripts\Extensions\VectorExt.cs" />
+    <Compile Include="Assets\Scripts\GameState.cs" />
+    <Compile Include="Assets\Scripts\UI\Vidgets\ProgressBarVidget.cs" />
+    <Compile Include="Assets\Scripts\Border\BorderIntegrity.cs" />
+    <Compile Include="Assets\Scripts\Token\TokenDestroyer.cs" />
+    <Compile Include="Assets\Scripts\UI\Targets\Targets\ScoreTarget.cs" />
+    <Compile Include="Assets\Scripts\Token\TokenType.cs" />
+    <Compile Include="Assets\Scripts\UI\Targets\TargetPanelController.cs" />
+    <Compile Include="Assets\Scripts\UI\Vidgets\MovesVidget.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

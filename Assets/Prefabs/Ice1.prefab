@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 5819283645914401840}
   - component: {fileID: 8240221079388007263}
   - component: {fileID: 208735238202612151}
-  - component: {fileID: 204923624969039821}
   - component: {fileID: -8825127883218465311}
+  - component: {fileID: 204923624969039821}
   m_Layer: 0
   m_Name: Ice1
   m_TagString: Untagged
@@ -101,6 +101,20 @@ MonoBehaviour:
   _type: 7
   _lvl: 1
   GridPos: {x: 0, y: 0}
+--- !u!114 &-8825127883218465311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7110658442594451740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d400130dd7f266340b8583396469fa05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _first: {fileID: 21300000, guid: 006da826408c99349ace6967a19a823f, type: 3}
+  _second: {fileID: 21300000, guid: b2ab3a1b368ee7240b9e56ac0909ce3c, type: 3}
 --- !u!61 &204923624969039821
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -118,7 +132,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.77, y: 0.715}
+    oldSize: {x: 0.73333335, y: 0.68095237}
     newSize: {x: 0.65, y: 0.645}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -127,17 +141,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.75, y: 0.69}
   m_EdgeRadius: 0
---- !u!114 &-8825127883218465311
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7110658442594451740}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d400130dd7f266340b8583396469fa05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _first: {fileID: 21300000, guid: 006da826408c99349ace6967a19a823f, type: 3}
-  _second: {fileID: 21300000, guid: b2ab3a1b368ee7240b9e56ac0909ce3c, type: 3}

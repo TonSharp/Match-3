@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 public static class GridCalculator
 {
-    public static List<Vector2Int> GetNeigbourPos(Vector2Int origin)
+    public static List<Vector2Int> GetNeighbourPos(Vector2Int origin)
     {
         var poses = new List<Vector2Int>();
 
@@ -22,8 +22,24 @@ public static class GridCalculator
 
         return poses;
     }
+    public static List<Vector2Int> Get2NeighbourPos(Vector2Int origin)
+    {
+        var poses = new List<Vector2Int>();
 
-    public static Vector2[] GetXNeigboursPos(Vector2Int origin, Tilemap map)
+        for (int y = 2; y >= -2; y--)
+        {
+            for (int x = -2; x <= 2; x++)
+            {
+                if (y == x && x == 0)
+                    continue;
+
+                poses.Add(new Vector2Int(origin.x + x, origin.y + y));
+            }
+        }
+
+        return poses;
+    }
+    public static Vector2[] GetXNeighboursPos(Vector2Int origin, Tilemap map)
     {
         var poses = new Vector2[]
         {
@@ -35,10 +51,24 @@ public static class GridCalculator
 
         return poses;
     }
-
-    public static List<Token> GetNeigbourTokens(Vector2Int origin, Tilemap map)
+    public static List<Vector2Int> GetLinePos(Vector2Int origin)
     {
-        var poses = V2IntToV2(GetNeigbourPos(origin), map);
+        var poses = new List<Vector2Int>();
+
+        for(int x = FieldBounds.LeftBottom.x; x <= FieldBounds.RightUpper.x; x++)
+        {
+            if (x == origin.x)
+                continue;
+
+            poses.Add(new Vector2Int(x, origin.y));
+        }
+
+        return poses;
+    }
+
+    public static List<Token> GetNeighbourTokens(Vector2Int origin, Tilemap map)
+    {
+        var poses = V2IntToV2(GetNeighbourPos(origin), map);
         var objects = new List<Token>();
 
         RaycastHit2D hit;
@@ -49,9 +79,9 @@ public static class GridCalculator
 
         return objects;
     }
-    public static List<Token> GetXNeigbourTokens(Vector2Int origin, Tilemap map)
+    public static List<Token> Get2NeigbourTokens(Vector2Int origin, Tilemap map)
     {
-        var poses = GetXNeigboursPos(origin, map);
+        var poses = V2IntToV2(Get2NeighbourPos(origin), map);
         var objects = new List<Token>();
 
         RaycastHit2D hit;
@@ -59,6 +89,33 @@ public static class GridCalculator
         foreach (var pos in poses)
             if ((hit = Physics2D.Raycast(pos, Vector3.forward)) && hit.collider.gameObject.TryGetComponent(out Token token))
                 objects.Add(token);
+
+        return objects;
+    }
+    public static List<Token> GetXNeighbourTokens(Vector2Int origin, Tilemap map)
+    {
+        var poses = GetXNeighboursPos(origin, map);
+        var objects = new List<Token>();
+
+        RaycastHit2D hit;
+
+        foreach (var pos in poses)
+            if ((hit = Physics2D.Raycast(pos, Vector3.forward)) && hit.collider.gameObject.TryGetComponent(out Token token))
+                objects.Add(token);
+
+        return objects;
+    }
+    public static List<Token> GetLineTokens(Vector2Int origin, Tilemap map)
+    {
+        var poses = V2IntToV2(GetLinePos(origin), map);
+        var objects = new List<Token>();
+        RaycastHit2D hit;
+
+        foreach (var pos in poses)
+        {
+            if ((hit = Physics2D.Raycast(pos, Vector3.forward)) && hit.collider.gameObject.TryGetComponent(out Token token))
+                objects.Add(token);
+        }
 
         return objects;
     }
@@ -73,13 +130,13 @@ public static class GridCalculator
         return list;
     }
 
-    public static Vector2[] GetFallingPos(Vector2Int origin, Tilemap map)
+    public static Vector2Int[] GetFallingPos(Vector2Int origin)
     {
-        var p1 = map.GetCellCenterWorld(new Vector3Int(origin.x, origin.y + 1, 0));
-        var p2 = map.GetCellCenterWorld(new Vector3Int(origin.x - 1, origin.y + 1, 0));
-        var p3 = map.GetCellCenterWorld(new Vector3Int(origin.x + 1, origin.y + 1, 0));
+        var p1 = new Vector2Int(origin.x, origin.y + 1);
+        var p2 = new Vector2Int(origin.x - 1, origin.y + 1);
+        var p3 = new Vector2Int(origin.x + 1, origin.y + 1);
 
-        var poses = new Vector2[3] { p1, p2, p3 };
+        var poses = new Vector2Int[3] { p1, p2, p3 };
 
         return poses;
     }

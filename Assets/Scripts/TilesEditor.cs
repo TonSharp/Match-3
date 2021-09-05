@@ -6,35 +6,14 @@ using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 using System.Linq;
 
-public static class Vector2IntExt
-{
-    public static Vector3Int ToV3Int(this Vector2Int vector)
-    {
-        return new Vector3Int(vector.x, vector.y, 0);
-    }
-}
-public static class Vector3IntExt
-{
-    public static Vector2Int ToV2Int(this Vector3Int vector)
-    {
-        return new Vector2Int(vector.x, vector.y);
-    }
-}
-public static class Vector3Ext
-{
-    public static Vector2 ToV2(this Vector3 vector)
-    {
-        return new Vector2(vector.x, vector.y);
-    }
-}
-
 public class TilesEditor : MonoBehaviour
 {
     [SerializeField] private Tilemap _borderTilemap, _bgTilemap;
     [SerializeField] private TileBase _bg, _border;
     [SerializeField] private Image _currentTool;
-
     [SerializeField] private Sprite _borderSprite, _bgSprite;
+
+    [SerializeField] private TokenSpawner _spawner;
 
     private Tilemap _activeTilemap;
     private TileBase _activeBase;
@@ -43,15 +22,6 @@ public class TilesEditor : MonoBehaviour
     private GameObject _activeToken;
 
     private BorderIntegrity _integrity;
-    private BorderPool _borderPool;
-    private TokenSpawner _spawner;
-
-    private const int _yMax = 5;
-    private const int _yMin = -5;
-    private const int _xMax = 3;
-    private const int _xMin = -4;
-
-    private bool _playMode = false;
 
     void Start()
     {
@@ -61,36 +31,40 @@ public class TilesEditor : MonoBehaviour
         _currentTool.sprite = _borderSprite;
 
         _integrity = GetComponent<BorderIntegrity>();
-        _borderPool = GetComponent<BorderPool>();
-        _spawner = GetComponent<TokenSpawner>();
     }
 
     void Update()
     {
         var cellPos = GetCellPos();
 
-        if (Input.GetMouseButton(0) && IsInGridBorder(cellPos) && !_playMode && !_isTokenSpawning)
+        if (Input.GetMouseButton(0) && IsInGridBorder(cellPos) && !GameState.IsPlayMode && GameState.IsEditMode && !_isTokenSpawning)
             Place(cellPos);
-        if(Input.GetMouseButtonDown(0) && IsInGridBorder(cellPos) && !_playMode && _isTokenSpawning)
+        if(Input.GetMouseButtonDown(0) && IsInGridBorder(cellPos) && !GameState.IsPlayMode && GameState.IsEditMode &&  _isTokenSpawning)
             Place(cellPos);
-        if (Input.GetMouseButton(1) && IsInGridBorder(cellPos) && !_playMode)
+        if (Input.GetMouseButton(1) && IsInGridBorder(cellPos) && !GameState.IsPlayMode && GameState.IsEditMode)
             UnPlace(cellPos);
 
         if (Input.GetKeyDown(KeyCode.C))
             Debug.Log(_integrity.IsCompleted(out _));
 
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F) && GameState.IsEditMode)
         {
-            _playMode = true;
-
-            var pos = _integrity.GetFillPos();
-
-            foreach (var p in pos)
-                _bgTilemap.SetTile(p.ToV3Int(), _bg);
-
-            _spawner.SpawnRandomTokens(pos);
+            EnterPlayMode();
         }
 
+    }
+
+    private void EnterPlayMode()
+    {
+        GameState.EnterPlayMode();
+
+        var pos = _integrity.GetFillPos();
+
+        foreach (var p in pos)
+            _bgTilemap.SetTile(p.ToV3Int(), _bg);
+
+        _spawner.SpawnRandomTokens(pos);
+        SpawnPosesPool.Init(pos);
     }
 
     public void SelectBackground()
@@ -132,11 +106,11 @@ public class TilesEditor : MonoBehaviour
         if (!_isTokenSpawning)
         {
             _activeTilemap.SetTile(cellPos, null);
-            _borderPool.RemoveFromPool(cellPos.ToV2Int());
+            BorderPool.Remove(cellPos.ToV2Int());
         }
         else
         {
-            var go = from p in _spawner.TokensPool
+            var go = from p in TokenPool.Get()
                      where p.GridPos == cellPos.ToV2Int()
                      select p;
 
@@ -146,7 +120,7 @@ public class TilesEditor : MonoBehaviour
             if(go.ElementAt(0).Type == _activeToken.GetComponent<Token>().Type)
             {
                 Destroy(go.ElementAt(0).gameObject);
-                _spawner.TokensPool.Remove(go.ElementAt(0));
+                TokenPool.Remove(go.ElementAt(0));
             }
         }
     }
@@ -155,7 +129,7 @@ public class TilesEditor : MonoBehaviour
         if(!_isTokenSpawning && _activeTilemap.GetTile(cellPos) == null)
         {
             _activeTilemap.SetTile(cellPos, _activeBase);
-            _borderPool.AddToPool(cellPos.ToV2Int());
+            BorderPool.Add(cellPos.ToV2Int());
         }
         else
         {
@@ -168,7 +142,7 @@ public class TilesEditor : MonoBehaviour
             var token = go.GetComponent<Token>();
             token.GridPos = cellPos.ToV2Int();
 
-            _spawner.TokensPool.Add(go.GetComponent<Token>());
+            TokenPool.Add(go.GetComponent<Token>());
         }
     }
     private Vector3Int GetCellPos()
@@ -221,7 +195,7 @@ public class TilesEditor : MonoBehaviour
 
     private bool IsInGridBorder(Vector3Int selectedCellPos)
     {
-        if (selectedCellPos.x >= _xMin && selectedCellPos.x <= _xMax && selectedCellPos.y >= _yMin && selectedCellPos.y <= _yMax)
+        if (selectedCellPos.x >= FieldBounds.LeftBottom.x && selectedCellPos.x <= FieldBounds.RightUpper.x && selectedCellPos.y >= FieldBounds.LeftBottom.y && selectedCellPos.y <= FieldBounds.RightUpper.y)
             return true;
         else
             return false;
