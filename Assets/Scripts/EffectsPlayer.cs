@@ -6,7 +6,7 @@ public class EffectsPlayer : MonoBehaviour
 {
     private static EffectsPlayer instance = null;
 
-    [SerializeField] private AudioClip click, error, startLevel, win, fail, swipe;
+    [SerializeField] private AudioClip click, error, startLevel, win, fail, swipe, bomb, rocket, match, unmatch;
     [SerializeField] private AudioSource audioSource;
 
     public void Click() => audioSource.PlayOneShot(click);
@@ -15,6 +15,10 @@ public class EffectsPlayer : MonoBehaviour
     public void Win() => audioSource.PlayOneShot(win);
     public void Fail() => audioSource.PlayOneShot(fail);
     public void Swipe() => audioSource.PlayOneShot(swipe);
+    public void Match() => audioSource.PlayOneShot(match);
+    public void UnMatch() => audioSource.PlayOneShot(unmatch);
+    public void Bomb() => audioSource.PlayOneShot(bomb);
+    public void Rocket() => audioSource.PlayOneShot(rocket);
 
     private void Start()
     {

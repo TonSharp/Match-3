@@ -8,31 +8,34 @@ using System.Linq;
 
 public class TilesEditor : MonoBehaviour
 {
-    [SerializeField] private Tilemap _borderTilemap, _bgTilemap;
-    [SerializeField] private TileBase _border, _bg;
-    [SerializeField] private Image _currentTool;
-    [SerializeField] private Sprite _borderSprite, _bgSprite;
+    [SerializeField] private Tilemap borderTilemap, bgTilemap;
+    [SerializeField] private TileBase border, bg;
+    [SerializeField] private Image currentTool;
+    [SerializeField] private Sprite borderSprite, bgSprite;
+    [SerializeField] private VidgetConfigurator vidgetConfigurator;
 
-    [SerializeField] private TokenSpawner _spawner;
+    [SerializeField] private TokenSpawner spawner;
 
-    private bool _isTokenSpawning = false;
-    private GameObject _activeToken;
+    private bool isTokenSpawning = false;
+    private GameObject activeToken;
 
-    private BorderIntegrity _integrity;
+    private BorderIntegrity integrity;
 
     void Start()
     {
-        _currentTool.sprite = _borderSprite;
-        _integrity = GetComponent<BorderIntegrity>();
+        currentTool.sprite = borderSprite;
+        integrity = GetComponent<BorderIntegrity>();
+
+        vidgetConfigurator.InitializeVidgets();
     }
 
     void Update()
     {
         var cellPos = GetCellPos();
 
-        if (Input.GetMouseButton(0) && IsInGridBorder(cellPos) && GameState.IsEditMode() && !_isTokenSpawning)
+        if (Input.GetMouseButton(0) && IsInGridBorder(cellPos) && GameState.IsEditMode() && !isTokenSpawning)
             Place(cellPos);
-        if(Input.GetMouseButtonDown(0) && IsInGridBorder(cellPos) && GameState.IsEditMode() && _isTokenSpawning)
+        if(Input.GetMouseButtonDown(0) && IsInGridBorder(cellPos) && GameState.IsEditMode() && isTokenSpawning)
             Place(cellPos);
         if (Input.GetMouseButton(1) && IsInGridBorder(cellPos) && GameState.IsEditMode())
             UnPlace(cellPos);
@@ -40,7 +43,7 @@ public class TilesEditor : MonoBehaviour
 
     public void InitSpawnPoses()
     {
-        var pos = _integrity.GetFillPos();
+        var pos = integrity.GetFillPos();
         SpawnPosesPool.Init(pos);
     }
 
@@ -48,32 +51,32 @@ public class TilesEditor : MonoBehaviour
     {
         EffectsPlayer.Instance().Click();
 
-        _currentTool.sprite = _borderSprite;
-        _isTokenSpawning = false;
+        currentTool.sprite = borderSprite;
+        isTokenSpawning = false;
     }
 
     public void SelectTile(Tilemap map, TileBase @base, Sprite sprite)
     {
         EffectsPlayer.Instance().Click();
-        _isTokenSpawning = false;
+        isTokenSpawning = false;
 
-        _currentTool.sprite = sprite;
+        currentTool.sprite = sprite;
     }
     public void SelectToken(GameObject token)
     {
         EffectsPlayer.Instance().Click();
-        _isTokenSpawning = true;
+        isTokenSpawning = true;
 
-        _activeToken = token;
+        activeToken = token;
 
-        _currentTool.sprite = token.GetComponent<SpriteRenderer>().sprite;
+        currentTool.sprite = token.GetComponent<SpriteRenderer>().sprite;
     }
 
     private void UnPlace(Vector3Int cellPos)
     {
-        if (!_isTokenSpawning)
+        if (!isTokenSpawning)
         {
-            _borderTilemap.SetTile(cellPos, null);
+            borderTilemap.SetTile(cellPos, null);
             BorderPool.Remove(cellPos.ToV2Int());
         }
         else
@@ -87,7 +90,7 @@ public class TilesEditor : MonoBehaviour
 
             var first = go.ElementAt(0);
 
-            if(first.Type == _activeToken.GetComponent<Token>().Type)
+            if(first.Type == activeToken.GetComponent<Token>().Type)
             {
                 TokenPool.Remove(first);
                 ObstaclesPool.Get().Remove(first);
@@ -96,39 +99,44 @@ public class TilesEditor : MonoBehaviour
 
                 Destroy(first.gameObject);
             }
+
+            vidgetConfigurator.UpdateObstaclesVidgets();
         }
     }
     private void Place(Vector3Int cellPos)
     {
-        if(!_isTokenSpawning && _borderTilemap.GetTile(cellPos) == null)
+        if(!isTokenSpawning && borderTilemap.GetTile(cellPos) == null)
         {
-            _borderTilemap.SetTile(cellPos, _border);
+            borderTilemap.SetTile(cellPos, border);
             BorderPool.Add(cellPos.ToV2Int());
         }
         else
         {
-            if (_borderTilemap.GetTile(cellPos) != null)
+            if (borderTilemap.GetTile(cellPos) != null)
                 return;
 
             if ((from p in TokenPool.Get() where p.GridPos == cellPos.ToV2Int() select p).Count() != 0)
                 return;
 
-            ObstaclesBackupPool.Add(new Tuple<GameObject, Vector3Int>(_activeToken, cellPos));
+            if(!ObstaclesBackupPool.Get().Contains(new Tuple<GameObject, Vector3Int>(activeToken, cellPos)))
+                ObstaclesBackupPool.Add(new Tuple<GameObject, Vector3Int>(activeToken, cellPos));
 
-            var go = Instantiate(_activeToken);
-            go.transform.position = _borderTilemap.GetCellCenterWorld(cellPos);
+            var go = Instantiate(activeToken);
+            go.transform.position = borderTilemap.GetCellCenterWorld(cellPos);
 
             var token = go.GetComponent<Token>();
             token.GridPos = cellPos.ToV2Int();
 
             TokenPool.Add(token);
             ObstaclesPool.Get().Add(token);
+
+            vidgetConfigurator.UpdateObstaclesVidgets();
         }
     }
     private Vector3Int GetCellPos()
     {
         var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        return _borderTilemap.WorldToCell(mousePos);
+        return borderTilemap.WorldToCell(mousePos);
     }
 
     private void Fill(Vector2Int origin)
@@ -155,9 +163,9 @@ public class TilesEditor : MonoBehaviour
     }
     private bool FillIsEmpty(Vector3Int pos)
     {
-        if (_borderTilemap.GetTile(pos) == null && _bgTilemap.GetTile(pos) == null)
+        if (borderTilemap.GetTile(pos) == null && bgTilemap.GetTile(pos) == null)
         {
-            _bgTilemap.SetTile(pos, _bg);
+            bgTilemap.SetTile(pos, bg);
             return true;
         }
         return false;
@@ -168,7 +176,7 @@ public class TilesEditor : MonoBehaviour
         startPos.x += 1;
         startPos.y -= 1;
 
-        if (_borderTilemap.GetTile(new Vector3Int(startPos.x, startPos.y, 0)) != null)
+        if (borderTilemap.GetTile(new Vector3Int(startPos.x, startPos.y, 0)) != null)
             return GetFreeCell(startPos);
         else return startPos;
     }

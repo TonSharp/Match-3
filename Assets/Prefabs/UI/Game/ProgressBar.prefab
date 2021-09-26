@@ -103,6 +103,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6594355906302148733}
+  - component: {fileID: 1360621393206425196}
   m_Layer: 5
   m_Name: ProgressBar
   m_TagString: Untagged
@@ -133,6 +134,22 @@ RectTransform:
   m_AnchoredPosition: {x: 38.67, y: -41.3}
   m_SizeDelta: {x: 77.34, y: 46.13}
   m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &1360621393206425196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1761322253502539826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af5553059eb3707478e3ad1d78750094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Target: {fileID: 0}
+  currentScoreText: {fileID: 8117609079272596532}
+  targetScoreText: {fileID: 6363617573883533230}
+  progressSlider: {fileID: 4809082405966778929}
 --- !u!1 &2752740846874952632
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,7 +308,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: 3.1100006, y: 0}
+  m_AnchoredPosition: {x: 3.1099854, y: 0}
   m_SizeDelta: {x: 1.17, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4847784661361006623

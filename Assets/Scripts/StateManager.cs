@@ -28,7 +28,9 @@ public class StateManager : MonoBehaviour
     {
         CurrentLevelStats.Reset();
         GameState.EnterPlayMode();
-        
+
+        vidgetConfigurator.InitializeVidgets();
+
         levelManager.FillBGTiles();
 
         if(ObstaclesPool.Get().Count() == 0)

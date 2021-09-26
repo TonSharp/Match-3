@@ -511,6 +511,8 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 5276}
     - Class: 114
+      Script: {instanceID: 5286}
+    - Class: 114
       Script: {instanceID: 5428}
     - Class: 114
       Script: {instanceID: 5450}
@@ -627,7 +629,7 @@ ScriptsOnlyBuild:
     className: Token
   - hash:
       serializedVersion: 2
-      Hash: 8ef834559ae32f762dd131c6f637b140
+      Hash: 44cfc74928bde94e73fb9f615c96143b
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: TilesEditor
@@ -861,7 +863,7 @@ ScriptsOnlyBuild:
     className: TextMeshProUGUI
   - hash:
       serializedVersion: 2
-      Hash: 724957b56051b1561ef214b48baa99b3
+      Hash: 5cd28e71d254beaa27fd859b3fb3a817
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: EffectsPlayer

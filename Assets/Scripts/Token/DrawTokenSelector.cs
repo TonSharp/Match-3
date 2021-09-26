@@ -39,6 +39,11 @@ public class DrawTokenSelector : MonoBehaviour
 
         if(token.gameObject.TryGetComponent(out IBooster booster) && _selectedTokens.Count == 0)
         {
+            if (booster is Bomb)
+                EffectsPlayer.Instance().Bomb();
+            else
+                EffectsPlayer.Instance().Rocket();
+
             _destroyer.DestroyBooster(booster, token);
 
             _spaceManager.Manage();
@@ -87,9 +92,14 @@ public class DrawTokenSelector : MonoBehaviour
 
         if (selectedCount < 3)
         {
+            if(selectedCount >= 2)
+                EffectsPlayer.Instance().UnMatch();
+
             _selectedTokens.Clear();
             return;
         }
+
+        EffectsPlayer.Instance().Match();
 
         Vector2Int lastPos = new Vector2Int();
 

@@ -146,4 +146,8 @@ MonoBehaviour:
   win: {fileID: 8300000, guid: 78b16dcfa47181749872047925a9c3c3, type: 3}
   fail: {fileID: 8300000, guid: 02a9940a1eb280a4292225930063133d, type: 3}
   swipe: {fileID: 8300000, guid: f377597d577951046b6ff27585178cdb, type: 3}
+  bomb: {fileID: 8300000, guid: c65372213e05dc8489dfeb93c9c9ad24, type: 3}
+  rocket: {fileID: 8300000, guid: 7df2a9dda58d841418c03653f46813c1, type: 3}
+  match: {fileID: 8300000, guid: a653977997497a7438678d270a36656b, type: 3}
+  unmatch: {fileID: 8300000, guid: bebbe02a44b5c344a8b07f2a59450514, type: 3}
   audioSource: {fileID: 1472476668152156485}

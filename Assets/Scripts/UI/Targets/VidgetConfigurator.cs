@@ -61,6 +61,10 @@ public class VidgetConfigurator : MonoBehaviour
             go.transform.SetParent(targetHolder, false);
 
             vidget = go.GetComponent<TokenVidget>();
+
+            if (vidget == null)
+                return;
+
             vidget.InitializeVidgetValues(0, target.GetIntValue());
 
             vidget.Target = target;
@@ -76,6 +80,10 @@ public class VidgetConfigurator : MonoBehaviour
             go.transform.SetParent(targetHolder, false);
 
             var vidget = go.GetComponent<TokenVidget>();
+
+            if (vidget == null)
+                return;
+
             vidget.Target = target;
 
             if (vidget.ObstaclesTypes == ObstaclesTypes.Ice)
@@ -91,6 +99,10 @@ public class VidgetConfigurator : MonoBehaviour
         scoreBar.SetActive(true);
 
         var vidget = scoreBar.GetComponent<ProgressBarVidget>();
+
+        if (vidget == null)
+            return;
+
         vidget.InitializeScoreValues(0, target.GetIntValue());
 
         vidget.Target = target;
@@ -102,6 +114,10 @@ public class VidgetConfigurator : MonoBehaviour
         moves.SetActive(true);
 
         var vidget = moves.GetComponent<MovesVidget>();
+
+        if (vidget == null)
+            return;
+
         vidget.InitializeVidgetValues(target.GetIntValue());
 
         vidget.Target = target;

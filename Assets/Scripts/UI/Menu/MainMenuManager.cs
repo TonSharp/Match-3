@@ -14,6 +14,8 @@ public class MainMenuManager : MonoBehaviour
     {
         if (instance == null)
             instance = this;
+
+        PoolsManager.ClearPools();
     }
 
     private void OnDestroy()

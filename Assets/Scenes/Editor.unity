@@ -5962,14 +5962,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7486207e0078c748a33caf11a8b6f55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _borderTilemap: {fileID: 244489809}
-  _bgTilemap: {fileID: 1611023394}
-  _border: {fileID: 11400000, guid: 95b25c8eac95b48488461a9b67ab1b70, type: 2}
-  _bg: {fileID: 11400000, guid: c76bdb9e585cebe45bc0f538118a808f, type: 2}
-  _currentTool: {fileID: 1899965294}
-  _borderSprite: {fileID: 21300000, guid: 15cdd1659373c3147a52c3580f6bc6ca, type: 3}
-  _bgSprite: {fileID: 21300000, guid: 213ad31a71025b14d98959a243cdcdf7, type: 3}
-  _spawner: {fileID: 505667727}
+  borderTilemap: {fileID: 244489809}
+  bgTilemap: {fileID: 1611023394}
+  border: {fileID: 11400000, guid: 95b25c8eac95b48488461a9b67ab1b70, type: 2}
+  bg: {fileID: 11400000, guid: c76bdb9e585cebe45bc0f538118a808f, type: 2}
+  currentTool: {fileID: 1899965294}
+  borderSprite: {fileID: 21300000, guid: 15cdd1659373c3147a52c3580f6bc6ca, type: 3}
+  bgSprite: {fileID: 21300000, guid: 213ad31a71025b14d98959a243cdcdf7, type: 3}
+  vidgetConfigurator: {fileID: 253303075}
+  spawner: {fileID: 505667727}
 --- !u!4 &2088769633
 Transform:
   m_ObjectHideFlags: 0
