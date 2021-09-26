@@ -5,9 +5,11 @@ using UnityEngine.UI;
 
 public class TokenTarget : MonoBehaviour, ITarget, ITokenTarget, IIntTarget
 {
-    [SerializeField] private Dropdown targetTypeDropdown;
-    [SerializeField] private Dropdown tokenTypeDropdown;
-    [SerializeField] private InputField inputField;
+    public bool IsReady { get; set; } = false;
+
+    [SerializeField] public Dropdown targetTypeDropdown;
+    [SerializeField] public Dropdown tokenTypeDropdown;
+    [SerializeField] public InputField inputField;
 
     [SerializeField] private string targetSpawnerName;
     private TargetSpawner spawner;
@@ -15,18 +17,33 @@ public class TokenTarget : MonoBehaviour, ITarget, ITokenTarget, IIntTarget
     private TargetType targetType = TargetType.Token;
     private int lastSelectedType = 0;
 
+    public void ChangeTokenTypeValue(int value)
+    {
+        tokenTypeDropdown.value = value;
+    }
+
     private void Start()
+    {
+        Initialize();
+    }
+
+    public void Initialize()
     {
         spawner = GameObject.Find(targetSpawnerName).GetComponent<TargetSpawner>();
 
-        var targets = Enum.GetNames(typeof(TokenTargetTypes));
-        var targetsList = new List<string>(targets);
+        targetTypeDropdown.ClearOptions();
+        tokenTypeDropdown.ClearOptions();
 
-        var tokenType = Enum.GetNames(typeof(TokensTypes));
-        var tokenTypeList = new List<string>(tokenType);
+        var rusTokenTarget = new List<string>(Localization.RussianTokenTargetTypes.Values);
+        //var targets = Enum.GetNames(typeof(TokenTargetTypes));
+        //var targetsList = new List<string>(targets);
 
-        targetTypeDropdown.AddOptions(targetsList);
-        tokenTypeDropdown.AddOptions(tokenTypeList);
+        var rusTokenType = new List<string>(Localization.RussianTokensTypes.Values);
+        //var tokenType = Enum.GetNames(typeof(TokensTypes));
+        //var tokenTypeList = new List<string>(tokenType);
+
+        targetTypeDropdown.AddOptions(rusTokenTarget);
+        tokenTypeDropdown.AddOptions(rusTokenType);
     }
 
 

@@ -6,4 +6,6 @@ public interface ITarget
 {
     public TargetType GetTargetType();
     public string Serialize();
+
+    public bool IsReady { get; set; }
 }

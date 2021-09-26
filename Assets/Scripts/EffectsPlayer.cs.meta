@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: eaa95cf5ff830014fb299b672bb0f226
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - click: {fileID: 8300000, guid: c3d114e343417714d82247706ba887ee, type: 3}
+  - error: {fileID: 8300000, guid: 07d4bab78e07d504ea32d1611181cdc9, type: 3}
+  - startLevel: {fileID: 8300000, guid: 2f3424842f96eb443800fb8a6f747edd, type: 3}
+  - win: {fileID: 8300000, guid: 78b16dcfa47181749872047925a9c3c3, type: 3}
+  - fail: {fileID: 8300000, guid: 02a9940a1eb280a4292225930063133d, type: 3}
+  - audioSource: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -5,10 +5,13 @@ using UnityEngine.UI;
 
 public class ObstacleTarget : MonoBehaviour, ITarget, ITokenTarget
 {
-    [SerializeField] private Dropdown targetTypeDropdown;
-    [SerializeField] private Dropdown tokenTypeDropdown;
+    public bool IsReady { get; set; } = false;
+
+    [SerializeField] public Dropdown targetTypeDropdown;
+    [SerializeField] public Dropdown tokenTypeDropdown;
 
     [SerializeField] private string targetSpawnerName;
+
     private TargetSpawner spawner;
 
     private TargetType targetType = TargetType.Obstacle;
@@ -16,18 +19,28 @@ public class ObstacleTarget : MonoBehaviour, ITarget, ITokenTarget
 
     private void Start()
     {
+        Initialize();
+    }
+
+    public void Initialize()
+    {
         spawner = GameObject.Find(targetSpawnerName).GetComponent<TargetSpawner>();
 
-        var targets = Enum.GetNames(typeof(TokenTargetTypes));
-        var targetsList = new List<string>(targets);
+        targetTypeDropdown.ClearOptions();
+        tokenTypeDropdown.ClearOptions();
 
-        var tokenType = Enum.GetNames(typeof(ObstaclesTypes));
-        var tokenTypeList = new List<string>(tokenType);
+        //var targets = Enum.GetNames(typeof(TokenTargetTypes));
+        var rusTargetsList = new List<string>(Localization.RussianTokenTargetTypes.Values);
+        //var targetsList = new List<string>(targets);
 
-        targetTypeDropdown.AddOptions(targetsList);
+        //var tokenType = Enum.GetNames(typeof(ObstaclesTypes));
+        var rusObstTypes = new List<string>(Localization.RussianObstaclesTypes.Values);
+        //var tokenTypeList = new List<string>(tokenType);
+
+        targetTypeDropdown.AddOptions(rusTargetsList);
         targetTypeDropdown.value = 1;
 
-        tokenTypeDropdown.AddOptions(tokenTypeList);
+        tokenTypeDropdown.AddOptions(rusObstTypes);
     }
 
     public TargetType GetTargetType()

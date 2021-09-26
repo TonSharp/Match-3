@@ -9,14 +9,11 @@ using System.Linq;
 public class TilesEditor : MonoBehaviour
 {
     [SerializeField] private Tilemap _borderTilemap, _bgTilemap;
-    [SerializeField] private TileBase _bg, _border;
+    [SerializeField] private TileBase _border, _bg;
     [SerializeField] private Image _currentTool;
     [SerializeField] private Sprite _borderSprite, _bgSprite;
 
     [SerializeField] private TokenSpawner _spawner;
-
-    private Tilemap _activeTilemap;
-    private TileBase _activeBase;
 
     private bool _isTokenSpawning = false;
     private GameObject _activeToken;
@@ -25,11 +22,7 @@ public class TilesEditor : MonoBehaviour
 
     void Start()
     {
-        _activeTilemap = _borderTilemap;
-        _activeBase = _border;
-
         _currentTool.sprite = _borderSprite;
-
         _integrity = GetComponent<BorderIntegrity>();
     }
 
@@ -37,63 +30,38 @@ public class TilesEditor : MonoBehaviour
     {
         var cellPos = GetCellPos();
 
-        if (Input.GetMouseButton(0) && IsInGridBorder(cellPos) && !GameState.IsPlayMode && GameState.IsEditMode && !_isTokenSpawning)
+        if (Input.GetMouseButton(0) && IsInGridBorder(cellPos) && GameState.IsEditMode() && !_isTokenSpawning)
             Place(cellPos);
-        if(Input.GetMouseButtonDown(0) && IsInGridBorder(cellPos) && !GameState.IsPlayMode && GameState.IsEditMode &&  _isTokenSpawning)
+        if(Input.GetMouseButtonDown(0) && IsInGridBorder(cellPos) && GameState.IsEditMode() && _isTokenSpawning)
             Place(cellPos);
-        if (Input.GetMouseButton(1) && IsInGridBorder(cellPos) && !GameState.IsPlayMode && GameState.IsEditMode)
+        if (Input.GetMouseButton(1) && IsInGridBorder(cellPos) && GameState.IsEditMode())
             UnPlace(cellPos);
-
-        if (Input.GetKeyDown(KeyCode.C))
-            Debug.Log(_integrity.IsCompleted(out _));
-
-        if (Input.GetKeyDown(KeyCode.F) && GameState.IsEditMode)
-        {
-            EnterPlayMode();
-        }
-
     }
 
-    private void EnterPlayMode()
+    public void InitSpawnPoses()
     {
-        GameState.EnterPlayMode();
-
         var pos = _integrity.GetFillPos();
-
-        foreach (var p in pos)
-            _bgTilemap.SetTile(p.ToV3Int(), _bg);
-
-        _spawner.SpawnRandomTokens(pos);
         SpawnPosesPool.Init(pos);
-    }
-
-    public void SelectBackground()
-    {
-        _activeTilemap = _bgTilemap;
-        _activeBase = _bg;
-
-        _currentTool.sprite = _bgSprite;
     }
 
     public void SelectBorder()
     {
-        _activeTilemap = _borderTilemap;
-        _activeBase = _border;
+        EffectsPlayer.Instance().Click();
 
         _currentTool.sprite = _borderSprite;
+        _isTokenSpawning = false;
     }
 
     public void SelectTile(Tilemap map, TileBase @base, Sprite sprite)
     {
+        EffectsPlayer.Instance().Click();
         _isTokenSpawning = false;
-
-        _activeTilemap = map;
-        _activeBase = @base;
 
         _currentTool.sprite = sprite;
     }
     public void SelectToken(GameObject token)
     {
+        EffectsPlayer.Instance().Click();
         _isTokenSpawning = true;
 
         _activeToken = token;
@@ -105,7 +73,7 @@ public class TilesEditor : MonoBehaviour
     {
         if (!_isTokenSpawning)
         {
-            _activeTilemap.SetTile(cellPos, null);
+            _borderTilemap.SetTile(cellPos, null);
             BorderPool.Remove(cellPos.ToV2Int());
         }
         else
@@ -117,18 +85,24 @@ public class TilesEditor : MonoBehaviour
             if (go.Count() == 0)
                 return;
 
-            if(go.ElementAt(0).Type == _activeToken.GetComponent<Token>().Type)
+            var first = go.ElementAt(0);
+
+            if(first.Type == _activeToken.GetComponent<Token>().Type)
             {
-                Destroy(go.ElementAt(0).gameObject);
-                TokenPool.Remove(go.ElementAt(0));
+                TokenPool.Remove(first);
+                ObstaclesPool.Get().Remove(first);
+
+                ObstaclesBackupPool.Get().Remove(new Tuple<GameObject, Vector3Int>(first.gameObject, cellPos));
+
+                Destroy(first.gameObject);
             }
         }
     }
     private void Place(Vector3Int cellPos)
     {
-        if(!_isTokenSpawning && _activeTilemap.GetTile(cellPos) == null)
+        if(!_isTokenSpawning && _borderTilemap.GetTile(cellPos) == null)
         {
-            _activeTilemap.SetTile(cellPos, _activeBase);
+            _borderTilemap.SetTile(cellPos, _border);
             BorderPool.Add(cellPos.ToV2Int());
         }
         else
@@ -136,19 +110,25 @@ public class TilesEditor : MonoBehaviour
             if (_borderTilemap.GetTile(cellPos) != null)
                 return;
 
+            if ((from p in TokenPool.Get() where p.GridPos == cellPos.ToV2Int() select p).Count() != 0)
+                return;
+
+            ObstaclesBackupPool.Add(new Tuple<GameObject, Vector3Int>(_activeToken, cellPos));
+
             var go = Instantiate(_activeToken);
-            go.transform.position = _activeTilemap.GetCellCenterWorld(cellPos);
+            go.transform.position = _borderTilemap.GetCellCenterWorld(cellPos);
 
             var token = go.GetComponent<Token>();
             token.GridPos = cellPos.ToV2Int();
 
-            TokenPool.Add(go.GetComponent<Token>());
+            TokenPool.Add(token);
+            ObstaclesPool.Get().Add(token);
         }
     }
     private Vector3Int GetCellPos()
     {
         var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        return _activeTilemap.WorldToCell(mousePos);
+        return _borderTilemap.WorldToCell(mousePos);
     }
 
     private void Fill(Vector2Int origin)

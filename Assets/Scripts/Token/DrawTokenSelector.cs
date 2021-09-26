@@ -8,6 +8,7 @@ using UnityEngine;
 public class DrawTokenSelector : MonoBehaviour
 {
     [SerializeField] private FreeSpaceManager _spaceManager;
+    [SerializeField] private StateManager stateManager;
 
     private LineRenderer _selectLine;
     private TokenDestroyer _destroyer;
@@ -24,10 +25,10 @@ public class DrawTokenSelector : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButton(0) && GameState.IsPlayMode)
+        if (Input.GetMouseButton(0) && GameState.IsPlayMode())
             SelectTokens();
 
-        if (Input.GetMouseButtonUp(0) && GameState.IsPlayMode)
+        if (Input.GetMouseButtonUp(0) && GameState.IsPlayMode())
             ResetSelection();
     }
 
@@ -39,6 +40,14 @@ public class DrawTokenSelector : MonoBehaviour
         if(token.gameObject.TryGetComponent(out IBooster booster) && _selectedTokens.Count == 0)
         {
             _destroyer.DestroyBooster(booster, token);
+
+            _spaceManager.Manage();
+
+            CurrentLevelStats.UsedMoves++;
+            _destroyer.VidgetConfigurator.UpdateMovesVidget();
+
+            stateManager.UpdateState();
+
             return;
         }
 
@@ -62,6 +71,9 @@ public class DrawTokenSelector : MonoBehaviour
             {
                 int index = _selectedTokens.IndexOf(token);
                 _selectedTokens.RemoveRange(index + 1, _selectedTokens.Count - index - 1);
+
+                LinePointToToken(index, _selectedTokens.Last());
+                return;
             }
         }
 
@@ -70,9 +82,15 @@ public class DrawTokenSelector : MonoBehaviour
 
     private void ResetSelection()
     {
+        int selectedCount = _selectedTokens.Count;
         _selectLine.positionCount = 1;
 
-        int selectedCount = _selectedTokens.Count;
+        if (selectedCount < 3)
+        {
+            _selectedTokens.Clear();
+            return;
+        }
+
         Vector2Int lastPos = new Vector2Int();
 
         if (selectedCount > 0)
@@ -87,6 +105,11 @@ public class DrawTokenSelector : MonoBehaviour
             _spaceManager.Spawner.SpawnBomb(lastPos);
 
         _spaceManager.Manage();
+
+        CurrentLevelStats.UsedMoves++;
+        _destroyer.VidgetConfigurator.UpdateMovesVidget();
+
+        stateManager.UpdateState();
     }
 
     private bool GetTokenUnderMouse(out Token token)
@@ -105,8 +128,7 @@ public class DrawTokenSelector : MonoBehaviour
 
     private void LinePointToToken(int index, Token token)
     {
-        if (_selectLine.positionCount <= index)
-            _selectLine.positionCount = index + 1;
+        _selectLine.positionCount = index + 1;
 
         _selectLine.SetPosition(index, token.gameObject.transform.position);
     }

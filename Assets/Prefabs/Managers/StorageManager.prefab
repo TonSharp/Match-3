@@ -1,0 +1,112 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6854257321006271851
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6854257321006271849}
+  - component: {fileID: 6854257321006271850}
+  - component: {fileID: 6854257321006271848}
+  - component: {fileID: 6854257321006271847}
+  - component: {fileID: 6854257321006271846}
+  - component: {fileID: 5907977065821715714}
+  m_Layer: 0
+  m_Name: StorageManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6854257321006271849
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6854257321006271851}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.59627044, y: -0.08738927, z: 197.11398}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6854257321006271850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6854257321006271851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9765020669e81f40a4e5c51ae202d45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  savePanel: {fileID: 4405090701391203721, guid: e60876c61e71de04d80c4c2e420872eb, type: 3}
+  canvas: {fileID: 0}
+--- !u!114 &6854257321006271848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6854257321006271851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a86a38b7f6c115b4b8f0a886b132297e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tilesEditor: {fileID: 0}
+  targetSpawner: {fileID: 0}
+  loadPanel: {fileID: 1075174682191536202, guid: e06da3de534b9fa4ab9d11e720248478, type: 3}
+  canvas: {fileID: 0}
+--- !u!114 &6854257321006271847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6854257321006271851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 540d8f39004614a41aaab50f316c4269, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6854257321006271846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6854257321006271851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db00a23c591ce34687703d36a6e980b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawner: {fileID: 0}
+  vidgetConfigurator: {fileID: 0}
+  loadManager: {fileID: 0}
+  obstacleSpawner: {fileID: 3623231646544763186, guid: 4aebebd4896478a4fb4b6366b1f96bc0, type: 3}
+--- !u!114 &5907977065821715714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6854257321006271851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 206461c7a4a00054fa0aec498415670b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  borderTilemap: {fileID: 0}
+  bgTilemap: {fileID: 0}
+  border: {fileID: 0}
+  bg: {fileID: 0}
+  integrity: {fileID: 0}

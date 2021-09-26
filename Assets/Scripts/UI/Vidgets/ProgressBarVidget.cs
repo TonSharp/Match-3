@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Slider))]
 public class ProgressBarVidget : MonoBehaviour
 {
+    public ScoreTarget Target;
+
     [SerializeField] private Text currentScoreText, targetScoreText;
     [SerializeField] private Slider progressSlider;
 

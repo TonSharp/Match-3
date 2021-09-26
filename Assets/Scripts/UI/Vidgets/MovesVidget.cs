@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class MovesVidget : MonoBehaviour
 {
+    public MoveTarget Target;
+
     [SerializeField] private Text movesText;
 
     private int movesLeft;
@@ -28,5 +30,8 @@ public class MovesVidget : MonoBehaviour
     public void UpdateVidget()
     {
         movesText.text = movesLeft.ToString();
+
+        if (movesLeft == 0)
+            Target.IsReady = true;
     }
 }

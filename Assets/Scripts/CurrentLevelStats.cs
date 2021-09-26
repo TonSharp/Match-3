@@ -14,29 +14,28 @@ public static class CurrentLevelStats
     public static int PinkDestoyed, PinkTarget;
     public static int YellowDestoyed, YellowTarget;
 
+    public static int StoneCount, StoneDestroyed;
+    public static int IceCount, IceDestroyed;
+
     public static void Reset()
     {
         CurrentXP = 0;
-        XPTarget = 0;
-        AvailableMoves = 0;
         UsedMoves = 0;
         RedDestoyed = 0;
-        RedTarget = 0;
         GreenDestoyed= 0;
-        GreenTarget = 0;
         BlueDestoyed = 0;
-        BlueTarget = 0;
         PinkDestoyed = 0;
-        PinkTarget = 0;
         YellowDestoyed = 0;
-        YellowTarget = 0;
+
+        IceDestroyed = 0;
+        StoneDestroyed = 0;
     }
 
-    public static void Initialize(List<ITarget> targets)
+    public static void Initialize()
     {
         Reset();
 
-        foreach(var target in targets)
+        foreach(var target in TargetsPool.Targets)
         {
             if (target is TokenTarget tokenTarget)
                 InitTokenTarget(tokenTarget);

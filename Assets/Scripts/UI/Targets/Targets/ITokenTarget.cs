@@ -7,4 +7,5 @@ using System.Threading.Tasks;
 public interface ITokenTarget
 {
     public string GetTokenType();
+    public bool IsReady { get; set; }
 }

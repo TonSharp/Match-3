@@ -3,7 +3,9 @@ using UnityEngine.UI;
 
 public class MoveTarget : MonoBehaviour, ITarget, IIntTarget
 {
-    [SerializeField] private InputField inputField;
+    public bool IsReady { get; set; } = false;
+
+    [SerializeField] public InputField inputField;
 
     private TargetType targetType = TargetType.MoveLimit;
 

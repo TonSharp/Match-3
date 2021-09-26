@@ -27,7 +27,7 @@ public enum TokenTargetTypes
 
 public partial class Localization
 {
-    public Dictionary<TokensTypes, string> RussianTokensTypes = new Dictionary<TokensTypes, string>()
+    public static Dictionary<TokensTypes, string> RussianTokensTypes = new Dictionary<TokensTypes, string>()
     {
         { TokensTypes.Red, "Красный" },
         { TokensTypes.Green, "Зелёный" },
@@ -36,15 +36,15 @@ public partial class Localization
         { TokensTypes.Yellow, "Жёлтый" }
     };
 
-    public Dictionary<ObstaclesTypes, string> RussianObstaclesTypes = new Dictionary<ObstaclesTypes, string>()
+    public static Dictionary<ObstaclesTypes, string> RussianObstaclesTypes = new Dictionary<ObstaclesTypes, string>()
     {
-        {ObstaclesTypes.Ice, "Лёд" },
-        {ObstaclesTypes.Stone, "Камень" }
+        {ObstaclesTypes.Ice, "Камень" },
+        {ObstaclesTypes.Stone, "Лёд" }
     };
 
-    public Dictionary<TokenTargetTypes, string> RussianTokenTargetTypes = new Dictionary<TokenTargetTypes, string>()
+    public static Dictionary<TokenTargetTypes, string> RussianTokenTargetTypes = new Dictionary<TokenTargetTypes, string>()
     {
-        {TokenTargetTypes.Obstacles, "Препятствия" },
-        {TokenTargetTypes.Tokens, "Токены" }
+        {TokenTargetTypes.Obstacles, "Токены" },
+        {TokenTargetTypes.Tokens, "Препятствия" }
     };
 }

@@ -4,24 +4,14 @@ using UnityEngine;
 
 public static class GameState
 {
-    public static bool IsPlayMode { get; private set; } = false;
-    public static bool IsEditMode { get; private set; } = true;
+    public static GameStateMode CurrentGameState { get; set; } = GameStateMode.None;
 
-    public static void EnterPlayMode()
-    {
-        IsPlayMode = true;
-    }
-    public static void StopPlayMode()
-    {
-        IsPlayMode = false;
-    }
+    public static void EnterPlayMode() => CurrentGameState = GameStateMode.Play;
+    public static void EnterEditMode() => CurrentGameState = GameStateMode.Edit;
+    public static void Stop() => CurrentGameState = GameStateMode.None;
+    public static void Interrupt() => CurrentGameState = GameStateMode.Interrupted;
 
-    public static void EnterEditMode()
-    {
-        IsEditMode = true;
-    }
-    public static void StopEditMode()
-    {
-        IsEditMode = false;
-    }
+    public static bool IsPlayMode() => CurrentGameState == GameStateMode.Play;
+    public static bool IsEditMode() => CurrentGameState == GameStateMode.Edit;
+    public static bool IsInterrupted() => CurrentGameState == GameStateMode.Interrupted;
 }

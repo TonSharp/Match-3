@@ -16,6 +16,11 @@ public class TokenSpawner : MonoBehaviour
     [SerializeField] private GameObject[] _stonePrefabs;
     [SerializeField] private GameObject[] _icePrefabs;
 
+    public void InitRandomTokens()
+    {
+        SpawnRandomTokens(SpawnPosesPool.Get().ToList());
+    }
+
     public void SpawnRandomTokens(List<Vector2Int> pos)
     {
         int randId;

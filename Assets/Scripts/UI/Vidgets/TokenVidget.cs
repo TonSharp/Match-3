@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class TokenVidget : MonoBehaviour
 {
     public TokensTypes TokenType;
+    public ObstaclesTypes ObstaclesTypes;
+    public ITokenTarget Target;
 
     [SerializeField] private Text targetText;
 
@@ -38,8 +40,13 @@ public class TokenVidget : MonoBehaviour
         UpdateVidgetText();
     }
 
+    public void SetValue(int value)
+    {
+        targetText.text = $"{value}";
+    }
+
     public void UpdateVidgetText()
     {
-        targetText.text = $"{_currentScore} / {_targetScore}";
+        targetText.text = $"{_targetScore - _currentScore}";
     }
 }

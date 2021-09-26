@@ -14,97 +14,129 @@ public class TargetSpawner : MonoBehaviour
     [SerializeField] private GameObject tokenTargetPrefab;
     [SerializeField] private GameObject obstacleTargetPrefab;
 
-    public List<ITarget> Targets { get; private set; } = new List<ITarget>();
     private bool recreation = false;
 
     public IEnumerable<TokenTarget> GetTokenTargets()
     {
-        return from t in Targets where t is TokenTarget select (TokenTarget)t;
+        return from t in TargetsPool.Targets where t is TokenTarget select (TokenTarget)t;
     }
 
-    public void CreateMoveTarget()
+    public ITarget CreateMoveTarget()
     {
-        foreach(var target in Targets)
+        foreach(var target in TargetsPool.Targets)
+        {
             if (target is MoveTarget)
-                return;
+            {
+                EffectsPlayer.Instance().Error();
+                return null;
+            }
+        }
+            
+        var go = CreateTarget(moveTargetPrefab);
 
-        CreateTarget(moveTargetPrefab);
+        return go;
     }
 
-    public void CreateScoreTarget()
+    public ITarget CreateScoreTarget()
     {
-        foreach (var target in Targets)
+        foreach (var target in TargetsPool.Targets)
+        {
             if (target is ScoreTarget)
-                return;
+            {
+                EffectsPlayer.Instance().Error();
+                return null;
+            } 
+        }
+            
 
-        CreateTarget(scoreTargetPrefab);
+        return CreateTarget(scoreTargetPrefab);
     }
 
-    public void CreateTokenTarget()
+    public ITarget CreateTokenTarget()
     {
         if(IsAvailableType(TokensTypes.Red.ToString()))
         {
-            CreateTarget(tokenTargetPrefab);
             recreation = false;
+
+            return CreateTarget(tokenTargetPrefab);
         }
         else if(!recreation)
         {
             recreation = true;
-            CreateObstacleTarget();
+            return CreateObstacleTarget();
         }
+
+        EffectsPlayer.Instance().Error();
+        return null;
     }
 
-    public void CreateObstacleTarget()
+    public ITarget CreateCustomTokenTarget(TokensTypes type)
+    {
+        if (IsAvailableType(type.ToString()))
+        {
+            var target = (TokenTarget)CreateTarget(tokenTargetPrefab);
+            target.tokenTypeDropdown.value = (int)type;
+
+            return target;
+        }
+
+        EffectsPlayer.Instance().Error();
+        return null;
+    }
+
+    public ITarget CreateObstacleTarget()
     {
         if (IsAvailableType(ObstaclesTypes.Stone.ToString()))
         {
-            CreateTarget(obstacleTargetPrefab);
             recreation = false;
+            return CreateTarget(obstacleTargetPrefab);
         }
         else if (!recreation)
         {
             recreation = true;
-            CreateTokenTarget();
+            return CreateTokenTarget();
         }
+
+        EffectsPlayer.Instance().Error();
+        return null;
     }
 
     public bool IsAvailableType(string type)
     {
-        foreach (var target in Targets)
+        foreach (var target in TargetsPool.Targets)
             if (target is ITokenTarget tTarget && tTarget.GetTokenType() == type)
                 return false;
 
         return true;
     }
 
-    private void CreateTarget(GameObject prefab)
+    private ITarget CreateTarget(GameObject prefab)
     {
         var go = Instantiate(prefab);
         go.transform.SetParent(scrollRect.content.transform, false);
 
         if (go.TryGetComponent(out ITarget target))
-            Targets.Add(target);
-    }
-    private void CreateTokenTarget(GameObject prefab, string type)
-    {
-        var go = Instantiate(prefab);
-        go.transform.SetParent(scrollRect.content.transform, false);
+        {
+            TargetsPool.Targets.Add(target);
+            return target;
+        }
 
-
+        EffectsPlayer.Instance().Error();
+        return null;
     }
 
     public void DeleteTarget(ITarget target)
     {
-        Targets.Remove(target);
+        TargetsPool.Targets.Remove(target);
         Destroy((target as MonoBehaviour).gameObject);
     }
 
     public void DeleteLastTarget()
     {
-        if (Targets.Count == 0)
+        if (TargetsPool.Targets.Count == 0)
             return;
 
-        ITarget last = Targets.Last();
+        ITarget last = TargetsPool.Targets.Last();
         DeleteTarget(last);
     }
 }
